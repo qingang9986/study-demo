@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qingang.rediscache.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.qingang.rediscache.model.User">
+    <id column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="gender" property="gender"/>
+    <result column="age" property="age"/>
+
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, `name`, gender, age
+  </sql>
+
+  <select id="getById" resultMap="BaseResultMap">
+    SELECT
+        <include refid="Base_Column_List"/>
+    FROM
+        qg_user
+    WHERE
+        id = #{id}
+  </select>
+
+  <delete id="deleteById">
+    DELETE FROM
+      qg_user
+    WHERE
+      id = #{id}
+  </delete>
+
+  <insert id="insert" parameterType="com.qingang.rediscache.model.User" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO qg_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+    </trim>
+    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="gender != null">
+        #{gender},
+      </if>
+      <if test="age != null">
+        #{age},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateById" parameterType="com.qingang.rediscache.model.User">
+    UPDATE dbj_questionnaire
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+      <if test="gender != null">
+        gender = #{gender},
+      </if>
+      <if test="age != null">
+        age = #{age},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+</mapper>
